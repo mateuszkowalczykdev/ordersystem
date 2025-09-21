@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="Put your description here.">
+  <base href="/">
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #ededed;
+    }
+  </style>
+  <title>order-system</title>
+</head>
+
+<body>
+  <order-system></order-system>
+
+  <script type="module" src="./src/order-panel.js"></script>
+  <script type="module" src="./src/order-form.js"></script>
+  <script type="module" src="./src/order-system.js"></script>
+  <script type="module">
+    import '@lion/ui/define/lion-tooltip.js';
+    import '@lion/ui/define/lion-button.js';
+    import '@lion/ui/define/lion-dialog.js';
+    import '@lion/ui/define/lion-form.js';
+    import '@lion/ui/define/lion-input.js';
+    import '@lion/ui/define/lion-textarea.js';
+  </script>
+</body>
+
+</html>

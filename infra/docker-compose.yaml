@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=qwerty
+    ports:
+      - "27117:27017"
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb_data_container:/data/db
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.1
+    container_name: zookeeper
+    networks:
+      - kafka-network
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: kafka
+    networks:
+      - kafka-network
+    ports:
+      - "9092:9092"   # listener wewnętrzny (docker)
+      - "9094:9094"   # listener na hosta (localhost)
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9094
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    depends_on:
+      - zookeeper
+
+volumes:
+  mongodb_data_container:
+networks:
+  kafka-network: # Define a custom network
+    driver: bridge
