@@ -6,6 +6,7 @@ export class OrderPanel extends LitElement {
   constructor() {
     super();
     this.renderOrders();
+    this.subscribeToChanges();
   }
 
   render() {
@@ -41,36 +42,54 @@ export class OrderPanel extends LitElement {
     tbody.textContent = "";
 
     orders.forEach(order => {
-      const tr = document.createElement("tr")
-
-      const tdId = document.createElement("td")
-      tdId.textContent = order.orderId;
-      tr.appendChild(tdId);
-
-      const tdUserId = document.createElement("td")
-      tdUserId.textContent = order.userId;
-      tr.appendChild(tdUserId);
-
-      const tdDescription = document.createElement("td")
-      tdDescription.innerHTML = `
-        <lion-tooltip has-arrow>
-          <span slot="invoker">${order.description.substring(0, 10)}...</span>
-          <div slot="content">${order.description}</div>
-        </lion-tooltip>
-      `;
-      tr.appendChild(tdDescription);
-
-      const tdStatus = document.createElement("td")
-      tdStatus.textContent = order.status;
-      tr.appendChild(tdStatus);
-
-      const tdCreatedAt = document.createElement("td")
-      tdCreatedAt.textContent = order.createdAt;
-      tr.appendChild(tdCreatedAt);
-
-      tbody.appendChild(tr);
+      tbody.appendChild(
+        this.createTableRow(order)
+      );
     });
 
   }
+
+  createTableRow(order) {
+    const tr = document.createElement("tr")
+    tr.id = `order-${order.orderId}`
+
+    tr.innerHTML = this.getTableRowColumns(order);
+    return tr;
+  }
+
+  getTableRowColumns(order) {
+    return `
+        <td>${order.orderId}</td>
+        <td>${order.userId}</td>
+        <td>
+          <lion-tooltip has-arrow>
+            <span slot="invoker">${order.description.substring(0, 10)}...</span>
+            <div slot="content">${order.description}</div>
+          </lion-tooltip>
+        </td>
+        <td>${order.status}</td>
+        <td>${order.createdAt}</td>
+    `;
+  }
+
+  subscribeToChanges() {
+    const eventSource = new EventSource("http://localhost:8081/order/changes");
+
+    eventSource.addEventListener("ORDER_CHANGE", evt => {
+      let order = JSON.parse(evt.data);
+
+      const tableRow = this.shadowRoot.getElementById(`order-${order?.orderId}`);
+
+      if (tableRow) {
+        tableRow.innerHTML = this.getTableRowColumns(order);
+      } else {
+        const tbody = this.shadowRoot.getElementById("orders-body");
+        tbody.appendChild(
+          this.createTableRow(order)
+        );
+      }
+    })
+  }
+
 }
 customElements.define('order-panel', OrderPanel)

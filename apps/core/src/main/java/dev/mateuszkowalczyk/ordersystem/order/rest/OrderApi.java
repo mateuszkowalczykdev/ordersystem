@@ -7,6 +7,7 @@ import dev.mateuszkowalczyk.ordersystem.order.model.OrderQuery;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 
@@ -34,5 +35,10 @@ public class OrderApi {
     @PostMapping("/filter")
     public List<OrderResponse> filterOrders(@RequestBody OrderQuery orderQuery) {
         return orderService.getFiltered(orderQuery);
+    }
+
+    @GetMapping("/changes")
+    public SseEmitter streamChanges() {
+        return orderService.getStreamChanges();
     }
 }

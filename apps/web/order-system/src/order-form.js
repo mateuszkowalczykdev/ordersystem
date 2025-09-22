@@ -18,6 +18,8 @@ export class OrderForm extends LitElement {
         "Content-Type": "application/json",
       },
     })
+
+    this.dispatchEvent(new Event('close-overlay', { bubbles: true }))
   };
 
   validateForm(formData) {

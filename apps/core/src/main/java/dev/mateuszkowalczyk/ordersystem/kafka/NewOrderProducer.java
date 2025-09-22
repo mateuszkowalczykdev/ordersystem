@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class KafkaProducer {
+public class NewOrderProducer {
 
     public static final String TOPIC = "new-orders";
 

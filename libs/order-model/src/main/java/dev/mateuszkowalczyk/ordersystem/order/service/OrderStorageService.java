@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -31,5 +32,9 @@ public class OrderStorageService {
 
     public List<Order> getFiltered(final OrderQuery query) {
         return orderFilterService.filter(query);
+    }
+
+    public Optional<Order> getByOrderId(final String orderId) {
+        return orderRepository.findByOrderId(orderId);
     }
 }

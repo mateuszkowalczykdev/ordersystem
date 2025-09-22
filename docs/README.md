@@ -21,8 +21,6 @@ Jest to microservive który zajmuje się obsługą zamówień i symuluje działa
 
 ## Brakujące funkcjonalności/technikalia
 
-- Odświeżanie listy zamówień po dodaniu nowego zamówienia lub zmiany statusu na zamówieniu
-- Automatycznego wyjścia z dialogu po dodaniu zamówienia
 - Styli CSS całej aplikacji
 - Testy integracyjne i jednostkowe po stronie BE i FE
 - Obsługa błędów po stronie BE i FE

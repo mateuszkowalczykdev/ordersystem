@@ -49,7 +49,7 @@ class OrderSystem extends LitElement {
         <h1>${this.header}</h1>
         <hr>
         <lion-dialog>
-          <lion-button slot="invoker">Default</lion-button>
+          <lion-button slot="invoker">Dodaj zamówienie</lion-button>
           <div slot="content" class="order-form-dialog">
             <div class="dialog-header">
               <h2>Dodawanie nowego zamówienia</h2>

@@ -4,6 +4,7 @@ import dev.mateuszkowalczyk.ordersystem.order.model.Order;
 import dev.mateuszkowalczyk.ordersystem.order.model.OrderQuery;
 import dev.mateuszkowalczyk.ordersystem.order.util.OrderStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -55,8 +56,10 @@ public class OrderDaoService {
         final var update = new Update();
         update.set(STATUS, status);
 
+        final var options = FindAndModifyOptions.options().returnNew(true);
+
         return Optional.ofNullable(
-                mongoTemplate.findAndModify(query, update, Order.class)
+                mongoTemplate.findAndModify(query, update, options, Order.class)
         );
     }
 }
