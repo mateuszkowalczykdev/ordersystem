@@ -1,4 +1,4 @@
-import {html, LitElement} from "lit";
+import {css, html, LitElement} from "lit";
 import {ajax} from "@lion/ajax";
 
 export class OrderPanel extends LitElement {
@@ -8,6 +8,28 @@ export class OrderPanel extends LitElement {
     this.renderOrders();
     this.subscribeToChanges();
   }
+
+  static styles = css`
+    table {
+      border: 0.1rem solid #282828;
+      border-radius: 0.25rem;
+      margin: 2rem auto;
+    }
+
+    table thead {
+      text-align: center;
+    }
+
+    th {
+      margin: 5px;
+    }
+
+    .tooltip-content {
+      background-color: white;
+      border: 0.1rem solid #282828;
+      padding: 0.5rem;
+    }
+  `;
 
   render() {
     return html`
@@ -58,17 +80,22 @@ export class OrderPanel extends LitElement {
   }
 
   getTableRowColumns(order) {
+    const description = order.description.length > 10 ? `${order.description.substring(0, 10)}...` : order.description
+
+    const date = new Date(order.createdAt);
+    const createdAt =  date.toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
+
     return `
         <td>${order.orderId}</td>
         <td>${order.userId}</td>
         <td>
           <lion-tooltip has-arrow>
-            <span slot="invoker">${order.description.substring(0, 10)}...</span>
-            <div slot="content">${order.description}</div>
+            <span slot="invoker">${description}</span>
+            <div class="tooltip-content" slot="content">${order.description}</div>
           </lion-tooltip>
         </td>
         <td>${order.status}</td>
-        <td>${order.createdAt}</td>
+        <td>${createdAt}</td>
     `;
   }
 

@@ -45,6 +45,15 @@ export class OrderForm extends LitElement {
     .error {
       color: red;
     }
+
+    form {
+      margin: 0 2rem 2rem 2rem;
+    }
+
+    .save-button {
+      display: block;
+      width: 100%;
+    }
   `;
 
   render() {
@@ -55,7 +64,8 @@ export class OrderForm extends LitElement {
           <span id="userid-error" class="error"></span>
           <lion-textarea name="description" label="Description" rows="4"></lion-textarea>
           <span id="description-error" class="error"></span>
-          <button>Submit</button>
+          <button>Save</button>
+<!--          <lion-button-submit class="save-button">Save</lion-button-submit>-->
         </form>
       </lion-form>
     `;

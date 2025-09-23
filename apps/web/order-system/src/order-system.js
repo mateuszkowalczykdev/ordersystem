@@ -36,6 +36,10 @@ class OrderSystem extends LitElement {
     .dialog-header h2 {
       margin-right: 2rem;
     }
+
+    .add-order {
+      display: block;
+    }
   `;
 
   constructor() {
@@ -49,7 +53,7 @@ class OrderSystem extends LitElement {
         <h1>${this.header}</h1>
         <hr>
         <lion-dialog>
-          <lion-button slot="invoker">Dodaj zamówienie</lion-button>
+          <lion-button class="add-order" slot="invoker">Dodaj zamówienie</lion-button>
           <div slot="content" class="order-form-dialog">
             <div class="dialog-header">
               <h2>Dodawanie nowego zamówienia</h2>
@@ -64,6 +68,7 @@ class OrderSystem extends LitElement {
           </div>
         </lion-dialog>
 
+        <hr>
 
         <order-panel></order-panel>
       </main>
